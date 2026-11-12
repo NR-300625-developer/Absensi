@@ -1,0 +1,111 @@
+:root {
+    color-scheme: light;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #232323;
+    background: #f58b18;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    min-width: 320px;
+    background:
+        radial-gradient(circle at 88% 9%, rgba(255, 207, 125, 0.68) 0 17%, transparent 17.2%),
+        radial-gradient(circle at 14% 92%, rgba(255, 190, 91, 0.48) 0 19%, transparent 19.2%),
+        linear-gradient(135deg, #ffad24 0%, #fa8919 54%, #f36d13 100%);
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.document {
+    width: min(100% - 40px, 820px);
+    margin: 42px auto;
+    padding: 30px 34px;
+    color: #232323;
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 14px 35px rgba(108, 47, 0, 0.16);
+}
+
+h1 {
+    margin: 0 0 22px;
+    color: #181818;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+p {
+    margin: 0;
+}
+
+.url-line {
+    margin-bottom: 24px;
+    overflow-wrap: anywhere;
+}
+
+a,
+a:visited {
+    color: #1769d2;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+a:hover {
+    color: #0f4fa8;
+}
+
+a:focus-visible {
+    outline: 2px solid #1769d2;
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+
+.store-name {
+    margin-bottom: 14px;
+}
+
+.credentials p + p {
+    margin-top: 2px;
+}
+
+@media (max-width: 480px) {
+    .document {
+        width: calc(100% - 32px);
+        margin: 28px auto;
+        padding: 24px 22px;
+        border-radius: 20px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+}
+
+
+.copyright {
+    width: min(100% - 40px, 820px);
+    margin: clamp(180px, 28vh, 250px) auto 7vh;
+    color: #ffffff;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.55;
+    text-shadow: 0 1px 2px rgba(128, 54, 0, 0.38);
+}
+
+.copyright p {
+    margin: 0;
+}
+
+@media (max-width: 480px) {
+    .copyright {
+        width: calc(100% - 32px);
+        margin-top: clamp(150px, 23vh, 210px);
+        font-size: 13px;
+    }
+}
