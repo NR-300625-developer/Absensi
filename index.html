@@ -7,6 +7,7 @@
     <meta name="description" content="Informasi login absensi Basmalah Patemon.">
     <title>Catatan Absensi - Basmalah Patemon</title>
     <link rel="stylesheet" href="./style.css">
+    <script src="./app.js" defer></script>
 </head>
 <body>
     <main class="document" aria-label="Catatan informasi absensi">
@@ -24,9 +25,30 @@
         <p class="store-name">Basmalah Patemon ( M1012 )</p>
 
         <div class="credentials">
-            <p>Username : m1012</p>
-            <p>Password : b!smillahm1012</p>
+            <p class="credential-line">
+                <span class="credential-label">Username :</span>
+                <span class="credential-value" id="username-value">m1012</span>
+                <button
+                    class="copy-button"
+                    type="button"
+                    data-copy-target="username-value"
+                >Salin</button>
+            </p>
+            <p class="credential-line">
+                <span class="credential-label">Password :</span>
+                <span class="credential-value" id="password-value">b!smillahm1012</span>
+                <button
+                    class="copy-button"
+                    type="button"
+                    data-copy-target="password-value"
+                >Salin</button>
+            </p>
         </div>
+        <p class="tracking-notice">
+            Aktivitas kunjungan pada halaman ini dapat dicatat untuk keperluan pemantauan,
+            termasuk waktu kunjungan serta informasi perangkat dan browser.
+        </p>
+
     </main>
 
     <footer class="copyright" aria-label="Informasi hak cipta">
