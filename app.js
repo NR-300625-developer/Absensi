@@ -1,6 +1,44 @@
 (() => {
     "use strict";
 
+    const RELOAD_AFTER_INACTIVE_MS = 5 * 60 * 1000;
+    let hiddenSince = null;
+
+    function markPageHidden() {
+        if (hiddenSince === null) {
+            hiddenSince = Date.now();
+        }
+    }
+
+    function reloadAfterLongPause() {
+        if (hiddenSince === null) {
+            return;
+        }
+
+        const inactiveDuration = Date.now() - hiddenSince;
+        hiddenSince = null;
+
+        if (inactiveDuration >= RELOAD_AFTER_INACTIVE_MS) {
+            window.location.reload();
+        }
+    }
+
+    document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden") {
+            markPageHidden();
+            return;
+        }
+
+        reloadAfterLongPause();
+    });
+
+    window.addEventListener("pagehide", markPageHidden);
+    window.addEventListener("pageshow", (event) => {
+        if (event.persisted) {
+            reloadAfterLongPause();
+        }
+    });
+
     async function copyText(text) {
         if (navigator.clipboard && window.isSecureContext) {
             await navigator.clipboard.writeText(text);
