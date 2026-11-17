@@ -1,44 +1,6 @@
 (() => {
     "use strict";
 
-    const RELOAD_AFTER_INACTIVE_MS = 5 * 60 * 1000;
-    let hiddenSince = null;
-
-    function markPageHidden() {
-        if (hiddenSince === null) {
-            hiddenSince = Date.now();
-        }
-    }
-
-    function reloadAfterLongPause() {
-        if (hiddenSince === null) {
-            return;
-        }
-
-        const inactiveDuration = Date.now() - hiddenSince;
-        hiddenSince = null;
-
-        if (inactiveDuration >= RELOAD_AFTER_INACTIVE_MS) {
-            window.location.reload();
-        }
-    }
-
-    document.addEventListener("visibilitychange", () => {
-        if (document.visibilityState === "hidden") {
-            markPageHidden();
-            return;
-        }
-
-        reloadAfterLongPause();
-    });
-
-    window.addEventListener("pagehide", markPageHidden);
-    window.addEventListener("pageshow", (event) => {
-        if (event.persisted) {
-            reloadAfterLongPause();
-        }
-    });
-
     async function copyText(text) {
         if (navigator.clipboard && window.isSecureContext) {
             await navigator.clipboard.writeText(text);
@@ -67,13 +29,31 @@
     const monitoringEndpoint =
         "https://nr-developer-monitoring.ainul6093.workers.dev/visit";
 
-    function recordPageVisit() {
+    async function recordPageVisit() {
+        let deviceDetails = {};
+
+        if (navigator.userAgentData) {
+            try {
+                deviceDetails = await navigator.userAgentData.getHighEntropyValues([
+                    "model",
+                    "platform",
+                    "platformVersion"
+                ]);
+            } catch (error) {
+                // Gunakan deteksi dasar jika Client Hints tidak tersedia.
+            }
+        }
+
         fetch(monitoringEndpoint, {
             method: "POST",
             mode: "cors",
             cache: "no-store",
             credentials: "omit",
-            keepalive: true
+            keepalive: true,
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(deviceDetails)
         }).catch(() => {
             // Catatan Online tetap dapat digunakan jika monitoring sedang tidak tersedia.
         });
