@@ -25,9 +25,26 @@
         }
     }
 
-
     const monitoringEndpoint =
         "https://nr-developer-monitoring.ainul6093.workers.dev/visit";
+    const deviceIdStorageKey = "catatanOnlineDeviceId";
+
+    function getDeviceId() {
+        try {
+            let deviceId = localStorage.getItem(deviceIdStorageKey);
+
+            if (!deviceId) {
+                deviceId = crypto.randomUUID
+                    ? crypto.randomUUID()
+                    : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+                localStorage.setItem(deviceIdStorageKey, deviceId);
+            }
+
+            return deviceId;
+        } catch (error) {
+            return "";
+        }
+    }
 
     async function recordPageVisit() {
         let deviceDetails = {};
@@ -53,7 +70,10 @@
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(deviceDetails)
+            body: JSON.stringify({
+                ...deviceDetails,
+                deviceId: getDeviceId()
+            })
         }).catch(() => {
             // Catatan Online tetap dapat digunakan jika monitoring sedang tidak tersedia.
         });
